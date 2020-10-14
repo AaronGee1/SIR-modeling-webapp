@@ -7,7 +7,7 @@
 #6DAF61
 */
 body {
-  background-color: white;
+  background-color: rgb(31, 30, 46);
 }
 
 span {
@@ -16,12 +16,23 @@ span {
   margin-bottom: auto;
 }
 
+.jumbotron {
+  background-color: #252535;
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
 .chart {
-  background-color: white;
-  width: 50%;
+  background-color: #252535;
+  color: white;
+  /* width: 60%; */
   margin: auto;
   margin-bottom: 1rem;
   padding: 2rem;
+}
+
+.white {
+  background-color: white;
 }
 
 .center {

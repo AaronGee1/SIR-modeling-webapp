@@ -372,7 +372,7 @@ function updateCount(chartVariables) {
 function newModel() {
   let state = new GlobalModel();
   let mainDiv = document.createElement("div");
-  mainDiv.className = "chart card";
+  mainDiv.className = "chart container";
   mainDiv.id = state.id["mainDivId"];
 
   let modelSelectionButton = document.createElement("button");
@@ -523,7 +523,7 @@ function newModel() {
   gammaTextBoxInput.value = "0.5";
   gammaTextBoxInput.id = state.id["gammaTextBoxId"];
 
-  document.body.appendChild(mainDiv);
+  document.body.insertBefore(mainDiv, document.body.childNodes[5]);
   mainDiv.appendChild(modelSelectionButton);
   mainDiv.appendChild(deleteButton);
   mainDiv.appendChild(title);

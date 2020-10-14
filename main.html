@@ -10,6 +10,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="main.css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Staatliches&display=swap" rel="stylesheet"> 
     <style>
       canvas {
         -moz-user-select: none;
@@ -19,20 +21,46 @@
     </style>
   </head>
 
+  <ul class="nav">
+    <li class="nav-item">
+      <a class="nav-link active" href="#">Active</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#">Link</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#">Link</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link disabled" href="#">Disabled</a>
+    </li>
+  </ul>
+
   <body>
     <div class="jumbotron jumbotron-fluid">
       <div class="container">
-        <h1 class="display-4">Epidemiology Modeling</h1>
+        <h1 class="display-4">INFECTIOUS DISEASE MODELING</h1>
         <p class="lead">
-          Exploring epidemiology modeling through interactive graphs.
+          Epidemic modeling through interactive graphs.
         </p>
       </div>
     </div>
 
     <div class="container">
-      <button class="btn btn-primary" id="newModel">New Model</button>
+      <button class="btn btn-primary" id="newModel">New Model <i class="fa fa-plus" aria-hidden="true"></i>
+      </button>
     </div>
 
+    <div class="container-fluid white">
+      <div class="row">
+        <div class="col-md-8 white">sdfds</div>
+        <div class="col-md-4 white">
+          <div class="row">123</div>
+          <div class="row">123</div>
+        </div>
+      </div>
+    </div>
+  
     <script src="scripts.js"></script>
   </body>
 </html>
