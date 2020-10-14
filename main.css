@@ -20,7 +20,8 @@ span {
   background-color: white;
   width: 50%;
   margin: auto;
-  padding: 4rem;
+  margin-bottom: 1rem;
+  padding: 2rem;
 }
 
 .center {
