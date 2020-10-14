@@ -82,6 +82,7 @@ class ChartVariables {
     this.test = 1;
     this.betaTextBox = document.getElementById(state.id["betaTextBoxId"]);
     this.gammaTextBox = document.getElementById(state.id["gammaTextBoxId"]);
+    this.mainDivId = document.getElementById(state.id["mainDivId"]);
   }
 }
 
@@ -334,9 +335,8 @@ function initializeChart(state) {
   document
     .getElementById(state.id["deleteButtonId"])
     .addEventListener("click", function () {
-      //   let chart = document.getElementById("chart1");
+      chartVariables.mainDivId.remove();
       console.log("todo");
-      chart.remove();
     });
 
   document
