@@ -96,40 +96,6 @@ document.getElementById("newModel").addEventListener("click", function () {
   newModel();
 });
 
-// document.getElementById("addData").addEventListener("click", function () {
-//   forwardStep();
-//   updateCount();
-//   myChart.update();
-// });
-
-// document.getElementById("stepBack").addEventListener("click", function () {
-//   backwardStep();
-//   updateCount();
-//   myChart.update();
-// });
-
-// document.getElementById("play").addEventListener("click", function () {
-//   if (day == 0) {
-//     reinitializeChart();
-//   }
-//   pause = false;
-
-//   startSim();
-// });
-
-// document.getElementById("pause").addEventListener("click", function () {
-//   pause = true;
-// });
-
-// document.getElementById("resetDataset").addEventListener("click", function () {
-//   pause = true;
-//   setTimeout(() => {
-//     reinitializeChart();
-//     updateCount;
-//     myChart.update();
-//   }, 100);
-// });
-
 // // javascript for slider and textbox functionality
 // let betaTextBox = document.getElementById("betaTextBox");
 // betaSlider.oninput = function () {
