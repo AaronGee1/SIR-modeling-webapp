@@ -87,51 +87,11 @@ class ChartVariables {
 }
 
 // // EVENT LISTENER
-// document.getElementById("DeleteButton").addEventListener("click", function () {
-//   let chart = document.getElementById("chart1");
-//   chart.remove();
-// });
-
 document.getElementById("newModel").addEventListener("click", function () {
   newModel();
 });
 
-// // javascript for slider and textbox functionality
-// let betaTextBox = document.getElementById("betaTextBox");
-// betaSlider.oninput = function () {
-//   betaTextBox.value = this.value;
-// };
-
-// betaTextBox.oninput = function () {
-//   betaSlider.value = this.value;
-// };
-
-// let gammaTextBox = document.getElementById("gammaTextBox");
-// gammaSlider.oninput = function () {
-//   gammaTextBox.value = this.value;
-// };
-
-// gammaTextBox.oninput = function () {
-//   gammaSlider.value = this.value;
-// };
-
-// // Assign count to a variable
-// let susceptibleCount = document.getElementById("susceptibleCount");
-// let infectiousCount = document.getElementById("infectiousCount");
-// let removedCount = document.getElementById("removedCount");
-// let rnot = document.getElementById("rnot");
-
-// let IFRTextBox = document.getElementById("IFRTextBox");
-// IFRSlider.oninput = function () {
-//   IFRTextBox.value = this.value;
-// };
-
-// IFRTextBox.oninput = function () {
-//   IFRSlider.value = this.value;
-// };
-
 // FUNCTIONS
-
 function initializeChart(state) {
   // INTIALIZE VARIABLES
   console.log(state.id["populationInputId"]);
