@@ -379,10 +379,10 @@ function newModel() {
   mainRowDiv.className = "row";
 
   let chartDiv = document.createElement("div");
-  chartDiv.className = "chart col-8";
+  chartDiv.className = "chart col-lg-8";
 
   let secondaryChartDiv = document.createElement("div");
-  secondaryChartDiv.className = "col-4";
+  secondaryChartDiv.className = "col-lg-4";
 
   let pieChartDiv = document.createElement("div");
   pieChartDiv.className = "row";
