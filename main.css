@@ -1,0 +1,28 @@
+/* 
+
+#252535
+#E89445
+#89B4DB
+#406279
+#6DAF61
+*/
+body {
+  background-color: white;
+}
+
+span {
+  margin: auto;
+  margin-top: 0.5rem;
+  margin-bottom: auto;
+}
+
+.chart {
+  background-color: white;
+  width: 50%;
+  margin: auto;
+  padding: 4rem;
+}
+
+.center {
+  margin: auto;
+}
