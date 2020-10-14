@@ -80,6 +80,8 @@ class ChartVariables {
     this.removedCount = document.getElementById(state.id["removedCountId"]);
     this.rnot = document.getElementById(state.id["rnotId"]);
     this.test = 1;
+    this.betaTextBox = document.getElementById(state.id["betaTextBoxId"]);
+    this.gammaTextBox = document.getElementById(state.id["gammaTextBoxId"]);
   }
 }
 
@@ -341,7 +343,7 @@ function initializeChart(state) {
     .getElementById(state.id["playButtonId"])
     .addEventListener("click", function () {
       if (chartVariables.day == 0) {
-        reinitializeChart(state, chartVariables, myChart);
+        initializeVariables(state, chartVariables, myChart);
       }
       chartVariables.pause = false;
       //   console.log(chartVariables);
@@ -358,16 +360,19 @@ function initializeChart(state) {
   document
     .getElementById(state.id["stepBackButtonId"])
     .addEventListener("click", function () {
-      backwardStep();
-      updateCount();
+      backwardStep(chartVariables, myChart);
+      updateCount(chartVariables);
       myChart.update();
     });
 
   document
     .getElementById(state.id["stepFowardButtonId"])
     .addEventListener("click", function () {
-      forwardStep();
-      updateCount();
+      if (chartVariables.day == 0) {
+        initializeVariables(state, chartVariables, myChart);
+      }
+      forwardStep(chartVariables, myChart);
+      updateCount(chartVariables);
       myChart.update();
     });
 
@@ -376,29 +381,29 @@ function initializeChart(state) {
     .addEventListener("click", function () {
       chartVariables.pause = true;
       setTimeout(() => {
-        reinitializeChart(state, chartVariables, myChart);
+        initializeVariables(state, chartVariables, myChart);
         updateCount(chartVariables);
         myChart.update();
       }, 100);
     });
 
   // javascript for slider and textbox functionality
-  let betaTextBox = document.getElementById(state.id["betaTextBoxId"]);
-  betaSlider.oninput = function () {
-    betaTextBox.value = this.value;
+  // let betaTextBox = document.getElementById(state.id["betaTextBoxId"]);
+  chartVariables.betaSlider.oninput = function () {
+    chartVariables.betaTextBox.value = this.value;
   };
 
-  betaTextBox.oninput = function () {
-    betaSlider.value = this.value;
+  chartVariables.betaTextBox.oninput = function () {
+    chartVariables.betaSlider.value = this.value;
   };
 
-  let gammaTextBox = document.getElementById(state.id["gammaTextBoxId"]);
-  gammaSlider.oninput = function () {
-    gammaTextBox.value = this.value;
+  // let gammaTextBox = document.getElementById(state.id["gammaTextBoxId"]);
+  chartVariables.gammaSlider.oninput = function () {
+    chartVariables.gammaTextBox.value = this.value;
   };
 
-  gammaTextBox.oninput = function () {
-    gammaSlider.value = this.value;
+  chartVariables.gammaTextBox.oninput = function () {
+    chartVariables.gammaSlider.value = this.value;
   };
 
   // Assign count to a variable
@@ -410,7 +415,7 @@ function initializeChart(state) {
   let rnot = document.getElementById(state.id["rnotId"]);
 }
 
-function reinitializeChart(state, chartVariables, myChart) {
+function initializeVariables(state, chartVariables, myChart) {
   chartVariables.pause = true;
   chartVariables.totalPopulation = document.getElementById(
     state.id["populationInputId"]
@@ -529,26 +534,33 @@ function nextStep(chartVariables, myChart) {
   });
 }
 
-function backwardStep() {
-  if (day > 0) {
-    day = day - 1;
-    betaHistory.pop();
-    gammaHistory.pop();
-    RnotHistory.pop();
+function backwardStep(chartVariables, myChart) {
+  if (chartVariables.day > 0) {
+    chartVariables.day = chartVariables.day - 1;
+    chartVariables.betaHistory.pop();
+    chartVariables.gammaHistory.pop();
+    chartVariables.RnotHistory.pop();
 
-    betaSlider.value = betaHistory[day];
-    betaTextBox.value = betaHistory[day];
-    beta = betaHistory[day];
+    chartVariables.betaSlider.value =
+      chartVariables.betaHistory[chartVariables.day];
+    chartVariables.betaTextBox.value =
+      chartVariables.betaHistory[chartVariables.day];
+    chartVariables.beta = chartVariables.betaHistory[chartVariables.day];
 
-    gammaSlider.value = gammaHistory[day];
-    gammaTextBox.value = gammaHistory[day];
-    gamma = gammaHistory[day];
+    chartVariables.gammaSlider.value =
+      chartVariables.gammaHistory[chartVariables.day];
+    chartVariables.gammaTextBox.value =
+      chartVariables.gammaHistory[chartVariables.day];
+    chartVariables.gamma = chartVariables.gammaHistory[chartVariables.day];
 
-    Rnot = RnotHistory[day];
+    chartVariables.Rnot = chartVariables.RnotHistory[chartVariables.day];
 
-    susceptibleGroup = myChart.data.datasets[0].data[day];
-    infectiousGroup = myChart.data.datasets[1].data[day];
-    recoveredGroup = myChart.data.datasets[2].data[day];
+    chartVariables.susceptibleGroup =
+      myChart.data.datasets[0].data[chartVariables.day];
+    chartVariables.infectiousGroup =
+      myChart.data.datasets[1].data[chartVariables.day];
+    chartVariables.recoveredGroup =
+      myChart.data.datasets[2].data[chartVariables.day];
 
     myChart.data.labels.pop();
     myChart.data.datasets[0].data.pop();
