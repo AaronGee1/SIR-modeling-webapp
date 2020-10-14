@@ -372,8 +372,23 @@ function updateCount(chartVariables) {
 function newModel() {
   let state = new GlobalModel();
   let mainDiv = document.createElement("div");
-  mainDiv.className = "chart container";
+  mainDiv.className = "container-fluid";
   mainDiv.id = state.id["mainDivId"];
+
+  let mainRowDiv = document.createElement("div");
+  mainRowDiv.className = "row";
+
+  let chartDiv = document.createElement("div");
+  chartDiv.className = "chart col-8";
+
+  let secondaryChartDiv = document.createElement("div");
+  secondaryChartDiv.className = "col-4";
+
+  let pieChartDiv = document.createElement("div");
+  pieChartDiv.className = "row";
+
+  let infoDiv = document.createElement("div");
+  infoDiv.className = "row";
 
   let modelSelectionButton = document.createElement("button");
   modelSelectionButton.innerHTML = "SIR MODEL";
@@ -524,10 +539,17 @@ function newModel() {
   gammaTextBoxInput.id = state.id["gammaTextBoxId"];
 
   document.body.insertBefore(mainDiv, document.body.childNodes[5]);
-  mainDiv.appendChild(modelSelectionButton);
-  mainDiv.appendChild(deleteButton);
-  mainDiv.appendChild(title);
-  mainDiv.appendChild(containerDiv);
+  mainDiv.appendChild(mainRowDiv);
+  mainRowDiv.appendChild(chartDiv);
+  mainRowDiv.appendChild(secondaryChartDiv);
+
+  secondaryChartDiv.appendChild(pieChartDiv);
+  secondaryChartDiv.appendChild(infoDiv);
+
+  chartDiv.appendChild(modelSelectionButton);
+  chartDiv.appendChild(deleteButton);
+  chartDiv.appendChild(title);
+  chartDiv.appendChild(containerDiv);
   containerDiv.appendChild(rowDiv);
 
   rowDiv.appendChild(susceptibleDiv);
@@ -546,24 +568,24 @@ function newModel() {
   RnotDiv.appendChild(RnotHeading);
   RnotHeading.appendChild(RnotSpan);
 
-  mainDiv.appendChild(canvas);
-  mainDiv.appendChild(br);
-  mainDiv.appendChild(br);
+  chartDiv.appendChild(canvas);
+  chartDiv.appendChild(br);
+  chartDiv.appendChild(br);
 
-  mainDiv.appendChild(spanButton);
+  chartDiv.appendChild(spanButton);
   spanButton.appendChild(playButton);
   spanButton.appendChild(pauseButton);
   spanButton.appendChild(stepBackButton);
   spanButton.appendChild(stepForwardButton);
   spanButton.appendChild(resetButton);
 
-  mainDiv.appendChild(populationSpan);
+  chartDiv.appendChild(populationSpan);
   populationSpan.appendChild(populationLabel);
   populationSpan.appendChild(populationInput);
   populationSpan.appendChild(infectedLabel);
   populationSpan.appendChild(infectedInput);
 
-  mainDiv.appendChild(variableSpan);
+  chartDiv.appendChild(variableSpan);
   variableSpan.appendChild(betaLabel);
   variableSpan.appendChild(betaSliderInput);
   variableSpan.appendChild(betaTextBoxInput);
