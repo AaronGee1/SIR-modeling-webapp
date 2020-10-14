@@ -94,49 +94,14 @@ document.getElementById("newModel").addEventListener("click", function () {
 // FUNCTIONS
 function initializeChart(state) {
   // INTIALIZE VARIABLES
-  console.log(state.id["populationInputId"]);
-  let totalPopulation = document.getElementById(state.id["populationInputId"])
-    .value;
-  let infectiousGroup = parseFloat(
-    document.getElementById(state.id["intialInfectedId"]).value
-  );
-  let susceptibleGroup = totalPopulation - infectiousGroup;
-  let recoveredGroup = 0;
-  let day = 0;
-
-  // let f = 0;
-  // let removed = 0;
-  // let R = [0];
-
-  let betaSlider = document.getElementById(state.id["betaSliderId"]);
-  let gammaSlider = document.getElementById(state.id["gammaSliderId"]);
-  // let IFRSlider = document.getElementById("IFRSlider");
-  // let IFR = IFRSlider.value / 100;
-
-  let beta = betaSlider.value; // beta is the average number of contacts per person per time
-  let betaHistory = [beta];
-  let gamma = gammaSlider.value; // gamma is the mean recovery rate 1/gamma is the mean period during which an infected individual can pass it on
-  let gammaHistory = [gamma];
-  let Rnot = beta / gamma;
-  let RnotHistory = [Rnot];
-
-  let ds_dt = (-beta * infectiousGroup * susceptibleGroup) / totalPopulation;
-  let di_dt =
-    (beta * infectiousGroup * susceptibleGroup) / totalPopulation -
-    gamma * infectiousGroup;
-  let dr_dt = gamma * infectiousGroup;
-
-  let pause = true;
-
   let chartVariables = new ChartVariables(state);
 
   // INITIALIZE CHART
-
   let ctx = document.getElementById(state.id["canvasId"]).getContext("2d");
   let myChart = new Chart(ctx, {
     type: "line",
     data: {
-      labels: [day],
+      labels: [chartVariables.day],
       datasets: [
         {
           label: "Susceptible",
@@ -155,12 +120,6 @@ function initializeChart(state) {
           data: [chartVariables.recoveredGroup],
           backgroundColor: ["rgba(200,200,200,0.2)"],
         },
-        //   {
-        //     label: "Dead",
-        //     data: [f],
-        //     backgroundColor: ["rgba(30,255,30,0.2)"],
-        //     borderColor: ["rgba(30,255,30,0.5"],
-        //   },
       ],
     },
     options: {
@@ -192,9 +151,7 @@ function initializeChart(state) {
         initializeVariables(state, chartVariables, myChart);
       }
       chartVariables.pause = false;
-      //   console.log(chartVariables);
       startSim(chartVariables, myChart);
-      //   console.log(chartVariables);
     });
 
   document
@@ -234,7 +191,6 @@ function initializeChart(state) {
     });
 
   // javascript for slider and textbox functionality
-  // let betaTextBox = document.getElementById(state.id["betaTextBoxId"]);
   chartVariables.betaSlider.oninput = function () {
     chartVariables.betaTextBox.value = this.value;
   };
@@ -243,7 +199,6 @@ function initializeChart(state) {
     chartVariables.betaSlider.value = this.value;
   };
 
-  // let gammaTextBox = document.getElementById(state.id["gammaTextBoxId"]);
   chartVariables.gammaSlider.oninput = function () {
     chartVariables.gammaTextBox.value = this.value;
   };
@@ -251,14 +206,6 @@ function initializeChart(state) {
   chartVariables.gammaTextBox.oninput = function () {
     chartVariables.gammaSlider.value = this.value;
   };
-
-  // Assign count to a variable
-  let susceptibleCount = document.getElementById(
-    state.id["susceptibleCountId"]
-  );
-  let infectiousCount = document.getElementById(state.id["infectiousCountId"]);
-  let removedCount = document.getElementById(state.id["removedCountId"]);
-  let rnot = document.getElementById(state.id["rnotId"]);
 }
 
 function initializeVariables(state, chartVariables, myChart) {
@@ -272,10 +219,8 @@ function initializeVariables(state, chartVariables, myChart) {
   chartVariables.susceptibleGroup =
     chartVariables.totalPopulation - chartVariables.infectiousGroup;
 
-  //   IFR = IFRSlider.value / 100;
   R = [0];
   recoveredGroup = 0;
-  //   f = 0;
   chartVariables.day = 0;
 
   chartVariables.beta = chartVariables.betaSlider.value;
@@ -304,7 +249,6 @@ function initializeVariables(state, chartVariables, myChart) {
   myChart.data.datasets[2].data = [chartVariables.recoveredGroup];
 
   chartVariables.test = 2;
-  //   myChart.data.datasets[3].data = [f];
 
   return [chartVariables, myChart];
 }
@@ -347,19 +291,12 @@ function forwardStep(chartVariables, myChart) {
     chartVariables.recoveredGroup =
       myChart.data.datasets[2].data[chartVariables.day] + chartVariables.dr_dt;
 
-    //   removed = R[day] + dr_dt;
-    //   r = removed * (1 - IFR);
-    //   f = removed * IFR;
-
     chartVariables.day = chartVariables.day + 1;
-    //   R.push(removed);
 
     myChart.data.labels.push(chartVariables.day);
     myChart.data.datasets[0].data.push(chartVariables.susceptibleGroup);
     myChart.data.datasets[1].data.push(chartVariables.infectiousGroup);
     myChart.data.datasets[2].data.push(chartVariables.recoveredGroup);
-    //   myChart.data.datasets[3].data.push(f);
-    return [chartVariables, myChart];
   }
 }
 
