@@ -14,6 +14,7 @@ class GlobalModel {
     removedCountId: "removedCount-1",
     rnotId: "rnot-1",
     canvasId: "myChart-1",
+    canvasIdPie: "myPieChart-1",
     playButtonId: "play-1",
     pauseButtonId: "pause-1",
     stepBackButtonId: "stepBack-1",
@@ -106,19 +107,58 @@ function initializeChart(state) {
         {
           label: "Susceptible",
           data: [chartVariables.susceptibleGroup],
-          backgroundColor: ["rgba(30, 30, 255, 0.2"],
-          borderColor: ["rgba(30,30,255,0.5"],
+          backgroundColor: ["rgba(30, 30, 255, 0.2)"],
+          borderColor: ["rgba(30,30,255,0.5)"],
         },
         {
           label: "Infected",
           data: [chartVariables.infectiousGroup],
-          backgroundColor: ["rgba(255, 30, 30, 0.2"],
-          borderColor: ["rgba(255,30,30,0.5"],
+          backgroundColor: ["rgba(255, 30, 30, 0.2)"],
+          borderColor: ["rgba(255,30,30,0.5)"],
         },
         {
           label: "Recovered",
           data: [chartVariables.recoveredGroup],
           backgroundColor: ["rgba(200,200,200,0.2)"],
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      scales: {
+        yAxes: [
+          {
+            ticks: {
+              beginAtZero: true,
+            },
+          },
+        ],
+      },
+    },
+  });
+
+  let ctx2 = document.getElementById(state.id["canvasIdPie"]).getContext("2d");
+  let myChart2 = new Chart(ctx2, {
+    type: "doughnut",
+    data: {
+      labels: ["Susceptible", "Infectious", "Removed"],
+      datasets: [
+        {
+          data: [
+            chartVariables.susceptibleGroup,
+            chartVariables.infectiousGroup,
+            chartVariables.recoveredGroup,
+          ],
+          backgroundColor: [
+            "rgba(30, 30, 255, 0.2)",
+            "rgba(255, 30, 30, 0.2)",
+            "rgba(200,200,200,0.2)",
+          ],
+          borderColor: [
+            "rgba(30, 30, 255, 0.5)",
+            "rgba(255, 30, 30, 0.5)",
+            "rgba(200,200,200,0.5)",
+          ],
         },
       ],
     },
@@ -148,10 +188,10 @@ function initializeChart(state) {
     .getElementById(state.id["playButtonId"])
     .addEventListener("click", function () {
       if (chartVariables.day == 0) {
-        initializeVariables(state, chartVariables, myChart);
+        initializeVariables(state, chartVariables, myChart, myChart2);
       }
       chartVariables.pause = false;
-      startSim(chartVariables, myChart);
+      startSim(chartVariables, myChart, myChart2);
     });
 
   document
@@ -163,20 +203,22 @@ function initializeChart(state) {
   document
     .getElementById(state.id["stepBackButtonId"])
     .addEventListener("click", function () {
-      backwardStep(chartVariables, myChart);
+      backwardStep(chartVariables, myChart, myChart2);
       updateCount(chartVariables);
       myChart.update();
+      myChart2.update();
     });
 
   document
     .getElementById(state.id["stepFowardButtonId"])
     .addEventListener("click", function () {
       if (chartVariables.day == 0) {
-        initializeVariables(state, chartVariables, myChart);
+        initializeVariables(state, chartVariables, myChart, myChart2);
       }
-      forwardStep(chartVariables, myChart);
+      forwardStep(chartVariables, myChart, myChart2);
       updateCount(chartVariables);
       myChart.update();
+      myChart2.update();
     });
 
   document
@@ -184,9 +226,10 @@ function initializeChart(state) {
     .addEventListener("click", function () {
       chartVariables.pause = true;
       setTimeout(() => {
-        initializeVariables(state, chartVariables, myChart);
+        initializeVariables(state, chartVariables, myChart, myChart2);
         updateCount(chartVariables);
         myChart.update();
+        myChart2.update();
       }, 100);
     });
 
@@ -208,7 +251,7 @@ function initializeChart(state) {
   };
 }
 
-function initializeVariables(state, chartVariables, myChart) {
+function initializeVariables(state, chartVariables, myChart, myChart2) {
   chartVariables.pause = true;
   chartVariables.totalPopulation = document.getElementById(
     state.id["populationInputId"]
@@ -218,6 +261,8 @@ function initializeVariables(state, chartVariables, myChart) {
   );
   chartVariables.susceptibleGroup =
     chartVariables.totalPopulation - chartVariables.infectiousGroup;
+
+  chartVariables.recoveredGroup = 0;
 
   R = [0];
   recoveredGroup = 0;
@@ -248,12 +293,17 @@ function initializeVariables(state, chartVariables, myChart) {
   myChart.data.datasets[1].data = [chartVariables.infectiousGroup];
   myChart.data.datasets[2].data = [chartVariables.recoveredGroup];
 
+  // myChart2.data.labels = [chartVariables.day];
+  myChart2.data.datasets[0].data[0] = chartVariables.susceptibleGroup;
+  myChart2.data.datasets[0].data[1] = chartVariables.infectiousGroup;
+  myChart2.data.datasets[0].data[2] = chartVariables.recoveredGroup;
+
   chartVariables.test = 2;
 
   return [chartVariables, myChart];
 }
 
-function forwardStep(chartVariables, myChart) {
+function forwardStep(chartVariables, myChart, myChart2) {
   chartVariables.beta = chartVariables.betaSlider.value;
   chartVariables.betaHistory.push(chartVariables.beta);
   chartVariables.gamma = chartVariables.gammaSlider.value;
@@ -297,27 +347,33 @@ function forwardStep(chartVariables, myChart) {
     myChart.data.datasets[0].data.push(chartVariables.susceptibleGroup);
     myChart.data.datasets[1].data.push(chartVariables.infectiousGroup);
     myChart.data.datasets[2].data.push(chartVariables.recoveredGroup);
+
+    // myChart2.data.labels.push(chartVariables.day);
+    myChart2.data.datasets[0].data[0] = chartVariables.susceptibleGroup;
+    myChart2.data.datasets[0].data[1] = chartVariables.infectiousGroup;
+    myChart2.data.datasets[0].data[2] = chartVariables.recoveredGroup;
   }
 }
 
-function nextStep(chartVariables, myChart) {
+function nextStep(chartVariables, myChart, myChart2) {
   return new Promise((resolve) => {
     setTimeout(() => {
-      forwardStep(chartVariables, myChart);
+      forwardStep(chartVariables, myChart, myChart2);
       updateCount(chartVariables);
       chartVariables.test = 3;
       myChart.update(0);
+      myChart2.update(0);
       if (
         chartVariables.infectiousGroup > 0.01 &&
         chartVariables.pause == false
       ) {
-        nextStep(chartVariables, myChart);
+        nextStep(chartVariables, myChart, myChart2);
       }
     }, 100);
   });
 }
 
-function backwardStep(chartVariables, myChart) {
+function backwardStep(chartVariables, myChart, myChart2) {
   if (chartVariables.day > 0) {
     chartVariables.day = chartVariables.day - 1;
     chartVariables.betaHistory.pop();
@@ -349,11 +405,15 @@ function backwardStep(chartVariables, myChart) {
     myChart.data.datasets[0].data.pop();
     myChart.data.datasets[1].data.pop();
     myChart.data.datasets[2].data.pop();
+
+    myChart2.data.datasets[0].data[0] = chartVariables.susceptibleGroup;
+    myChart2.data.datasets[0].data[1] = chartVariables.infectiousGroup;
+    myChart2.data.datasets[0].data[2] = chartVariables.recoveredGroup;
   }
 }
 
-async function startSim(chartVariables, myChart) {
-  await nextStep(chartVariables, myChart);
+async function startSim(chartVariables, myChart, myChart2) {
+  await nextStep(chartVariables, myChart, myChart2);
 }
 
 function updateCount(chartVariables) {
@@ -385,7 +445,11 @@ function newModel() {
   secondaryChartDiv.className = "col-lg-4";
 
   let pieChartDiv = document.createElement("div");
-  pieChartDiv.className = "row";
+  pieChartDiv.className = "chart row";
+  pieChartDiv.className = "chart";
+
+  let pieChartCanvas = document.createElement("canvas");
+  pieChartCanvas.id = state.id["canvasIdPie"];
 
   let infoDiv = document.createElement("div");
   infoDiv.className = "row";
@@ -545,6 +609,8 @@ function newModel() {
 
   secondaryChartDiv.appendChild(pieChartDiv);
   secondaryChartDiv.appendChild(infoDiv);
+
+  pieChartDiv.appendChild(pieChartCanvas);
 
   chartDiv.appendChild(modelSelectionButton);
   chartDiv.appendChild(deleteButton);
