@@ -15,6 +15,7 @@ class GlobalModel {
     rnotId: "rnot-1",
     canvasId: "myChart-1",
     canvasIdPie: "myPieChart-1",
+    infoId: "infoBox-1",
     playButtonId: "play-1",
     pauseButtonId: "pause-1",
     stepBackButtonId: "stepBack-1",
@@ -84,6 +85,7 @@ class ChartVariables {
     this.betaTextBox = document.getElementById(state.id["betaTextBoxId"]);
     this.gammaTextBox = document.getElementById(state.id["gammaTextBoxId"]);
     this.mainDivId = document.getElementById(state.id["mainDivId"]);
+    this.infoBox = document.getElementById(state.id["infoId"]);
   }
 }
 
@@ -368,6 +370,15 @@ function nextStep(chartVariables, myChart, myChart2) {
         chartVariables.pause == false
       ) {
         nextStep(chartVariables, myChart, myChart2);
+      } else if (chartVariables.infectiousGroup < 0.01) {
+        chartVariables.infoBox.innerHTML =
+          "The infection ended after " +
+          chartVariables.day +
+          " days. Out of the " +
+          chartVariables.totalPopulation +
+          " total population " +
+          chartVariables.recoveredGroup.toFixed(0) +
+          " people were infected.";
       }
     }, 100);
   });
@@ -452,7 +463,8 @@ function newModel() {
   pieChartCanvas.id = state.id["canvasIdPie"];
 
   let infoDiv = document.createElement("div");
-  infoDiv.className = "row";
+  infoDiv.className = "chart row";
+  infoDiv.id = state.id["infoId"];
 
   let modelSelectionButton = document.createElement("button");
   modelSelectionButton.innerHTML = "SIR MODEL";
