@@ -108,19 +108,19 @@ function initializeChart(state) {
       datasets: [
         {
           label: "Susceptible",
-          data: [chartVariables.susceptibleGroup],
+          data: [],
           backgroundColor: ["rgba(30, 30, 255, 0.2)"],
           borderColor: ["rgba(30,30,255,0.5)"],
         },
         {
           label: "Infected",
-          data: [chartVariables.infectiousGroup],
+          data: [],
           backgroundColor: ["rgba(255, 30, 30, 0.2)"],
           borderColor: ["rgba(255,30,30,0.5)"],
         },
         {
           label: "Recovered",
-          data: [chartVariables.recoveredGroup],
+          data: [],
           backgroundColor: ["rgba(200,200,200,0.2)"],
         },
       ],
@@ -146,11 +146,7 @@ function initializeChart(state) {
       labels: ["Susceptible", "Infectious", "Removed"],
       datasets: [
         {
-          data: [
-            chartVariables.susceptibleGroup,
-            chartVariables.infectiousGroup,
-            chartVariables.recoveredGroup,
-          ],
+          data: [0, 0, 0],
           backgroundColor: [
             "rgba(30, 30, 255, 0.2)",
             "rgba(255, 30, 30, 0.2)",
