@@ -463,7 +463,7 @@ function newModel() {
   infoDiv.id = state.id["infoId"];
 
   let modelSelectionButton = document.createElement("button");
-  modelSelectionButton.innerHTML = "SIR MODEL";
+  modelSelectionButton.innerHTML = "SIR Model";
   modelSelectionButton.className = "btn";
 
   let deleteButton = document.createElement("button");
@@ -472,7 +472,7 @@ function newModel() {
   deleteButton.id = state.id["deleteButtonId"];
 
   let title = document.createElement("h1");
-  title.innerHTML = "SIR MODEL";
+  title.innerHTML = "SIR Model";
 
   let containerDiv = document.createElement("div");
   containerDiv.className = "container";
@@ -573,9 +573,14 @@ function newModel() {
   infectedInput.value = "1";
   infectedInput.id = state.id["intialInfectedId"];
 
+  let colDiv1 = document.createElement("div");
+  colDiv1.className = "col-12 col-sm-6";
+
+  let colDiv2 = document.createElement("div");
+  colDiv2.className = "col-12 col-sm-6";
+
   let variableDiv = document.createElement("div");
-  variableDiv.className = "row";
-  let variableSpan = document.createElement("span");
+  variableDiv.className = "row container";
 
   let betaLabel = document.createElement("label");
   betaLabel.for = "beta";
@@ -590,7 +595,7 @@ function newModel() {
   betaSliderInput.id = state.id["betaSliderId"];
 
   let betaTextBoxInput = document.createElement("input");
-  betaTextBoxInput.type = "number";
+  betaTextBoxInput.type = "text";
   betaTextBoxInput.step = "0.01";
   betaTextBoxInput.min = "0.01";
   betaTextBoxInput.max = "1";
@@ -610,7 +615,7 @@ function newModel() {
   gammaSliderInput.id = state.id["gammaSliderId"];
 
   let gammaTextBoxInput = document.createElement("input");
-  gammaTextBoxInput.type = "number";
+  gammaTextBoxInput.type = "text";
   gammaTextBoxInput.step = "0.01";
   gammaTextBoxInput.min = "0.01";
   gammaTextBoxInput.max = "1";
@@ -669,13 +674,14 @@ function newModel() {
   populationSpan.appendChild(infectedInput);
 
   chartDiv.appendChild(variableDiv);
-  variableDiv.appendChild(variableSpan);
-  variableSpan.appendChild(betaLabel);
-  variableSpan.appendChild(betaSliderInput);
-  variableSpan.appendChild(betaTextBoxInput);
-  variableSpan.appendChild(gammaLabel);
-  variableSpan.appendChild(gammaSliderInput);
-  variableSpan.appendChild(gammaTextBoxInput);
+  variableDiv.appendChild(colDiv1);
+  colDiv1.appendChild(betaLabel);
+  colDiv1.appendChild(betaSliderInput);
+  colDiv1.appendChild(betaTextBoxInput);
+  variableDiv.appendChild(colDiv2);
+  colDiv2.appendChild(gammaLabel);
+  colDiv2.appendChild(gammaSliderInput);
+  colDiv2.appendChild(gammaTextBoxInput);
 
   initializeChart(state);
 }
