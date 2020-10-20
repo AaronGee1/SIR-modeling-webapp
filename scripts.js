@@ -521,6 +521,9 @@ function newModel() {
 
   let br = document.createElement("br");
 
+  let buttonDiv = document.createElement("div");
+  buttonDiv.className = "row";
+
   let spanButton = document.createElement("span");
 
   let playButton = document.createElement("button");
@@ -548,6 +551,8 @@ function newModel() {
   resetButton.innerHTML = "Reset";
   resetButton.id = state.id["resetButtonId"];
 
+  let populationDiv = document.createElement("div");
+  populationDiv.className = "row";
   let populationSpan = document.createElement("span");
 
   let populationLabel = document.createElement("label");
@@ -568,6 +573,8 @@ function newModel() {
   infectedInput.value = "1";
   infectedInput.id = state.id["intialInfectedId"];
 
+  let variableDiv = document.createElement("div");
+  variableDiv.className = "row";
   let variableSpan = document.createElement("span");
 
   let betaLabel = document.createElement("label");
@@ -646,20 +653,23 @@ function newModel() {
   chartDiv.appendChild(br);
   chartDiv.appendChild(br);
 
-  chartDiv.appendChild(spanButton);
+  chartDiv.appendChild(buttonDiv);
+  buttonDiv.appendChild(spanButton);
   spanButton.appendChild(playButton);
   spanButton.appendChild(pauseButton);
   spanButton.appendChild(stepBackButton);
   spanButton.appendChild(stepForwardButton);
   spanButton.appendChild(resetButton);
 
-  chartDiv.appendChild(populationSpan);
+  chartDiv.appendChild(populationDiv);
+  populationDiv.append(populationSpan);
   populationSpan.appendChild(populationLabel);
   populationSpan.appendChild(populationInput);
   populationSpan.appendChild(infectedLabel);
   populationSpan.appendChild(infectedInput);
 
-  chartDiv.appendChild(variableSpan);
+  chartDiv.appendChild(variableDiv);
+  variableDiv.appendChild(variableSpan);
   variableSpan.appendChild(betaLabel);
   variableSpan.appendChild(betaSliderInput);
   variableSpan.appendChild(betaTextBoxInput);
