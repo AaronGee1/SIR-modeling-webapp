@@ -46,6 +46,36 @@ class GlobalModel {
   }
 }
 
+class LocalState {
+  constructor(state) {
+    this.id = {
+      mainDivId: "chart-1",
+      deleteButtonId: "deleteButton-1",
+      susceptibleCountId: "susceptibleCount-1",
+      infectiousCountId: "infectiousCount-1",
+      removedCountId: "removedCount-1",
+      rnotId: "rnot-1",
+      canvasId: "myChart-1",
+      canvasIdPie: "myPieChart-1",
+      infoId: "infoBox-1",
+      playButtonId: "play-1",
+      pauseButtonId: "pause-1",
+      stepBackButtonId: "stepBack-1",
+      stepFowardButtonId: "stepFoward-1",
+      resetButtonId: "resetDataset-1",
+      populationInputId: "population-1",
+      intialInfectedId: "intialInfected-1",
+      betaSliderId: "betaSlider-1",
+      betaTextBoxId: "betaTextBox-1",
+      gammaSliderId: "gammaSlider-1",
+      gammaTextBoxId: "gammaTextBox-1",
+    };
+    for (let id in this.id) {
+      this.id[id] = state.id[id];
+    }
+  }
+}
+
 class ChartVariables {
   constructor(state) {
     this.totalPopulation = document.getElementById(
@@ -97,10 +127,11 @@ document.getElementById("newModel").addEventListener("click", function () {
 // FUNCTIONS
 function initializeChart(state) {
   // INTIALIZE VARIABLES
-  let chartVariables = new ChartVariables(state);
+  let chartState = new LocalState(state);
+  let chartVariables = new ChartVariables(chartState);
 
   // INITIALIZE CHART
-  let ctx = document.getElementById(state.id["canvasId"]).getContext("2d");
+  let ctx = document.getElementById(chartState.id["canvasId"]).getContext("2d");
   let myChart = new Chart(ctx, {
     type: "line",
     data: {
@@ -139,7 +170,9 @@ function initializeChart(state) {
     },
   });
 
-  let ctx2 = document.getElementById(state.id["canvasIdPie"]).getContext("2d");
+  let ctx2 = document
+    .getElementById(chartState.id["canvasIdPie"])
+    .getContext("2d");
   let myChart2 = new Chart(ctx2, {
     type: "doughnut",
     data: {
@@ -176,30 +209,30 @@ function initializeChart(state) {
 
   // EVENT LISTENER
   document
-    .getElementById(state.id["deleteButtonId"])
+    .getElementById(chartState.id["deleteButtonId"])
     .addEventListener("click", function () {
       chartVariables.mainDivId.remove();
       console.log("todo");
     });
 
   document
-    .getElementById(state.id["playButtonId"])
+    .getElementById(chartState.id["playButtonId"])
     .addEventListener("click", function () {
       if (chartVariables.day == 0) {
-        initializeVariables(state, chartVariables, myChart, myChart2);
+        initializeVariables(chartState, chartVariables, myChart, myChart2);
       }
       chartVariables.pause = false;
       startSim(chartVariables, myChart, myChart2);
     });
 
   document
-    .getElementById(state.id["pauseButtonId"])
+    .getElementById(chartState.id["pauseButtonId"])
     .addEventListener("click", function () {
       chartVariables.pause = true;
     });
 
   document
-    .getElementById(state.id["stepBackButtonId"])
+    .getElementById(chartState.id["stepBackButtonId"])
     .addEventListener("click", function () {
       backwardStep(chartVariables, myChart, myChart2);
       updateCount(chartVariables);
@@ -208,10 +241,10 @@ function initializeChart(state) {
     });
 
   document
-    .getElementById(state.id["stepFowardButtonId"])
+    .getElementById(chartState.id["stepFowardButtonId"])
     .addEventListener("click", function () {
       if (chartVariables.day == 0) {
-        initializeVariables(state, chartVariables, myChart, myChart2);
+        initializeVariables(chartState, chartVariables, myChart, myChart2);
       }
       forwardStep(chartVariables, myChart, myChart2);
       updateCount(chartVariables);
@@ -220,11 +253,14 @@ function initializeChart(state) {
     });
 
   document
-    .getElementById(state.id["resetButtonId"])
+    .getElementById(chartState.id["resetButtonId"])
     .addEventListener("click", function () {
       chartVariables.pause = true;
       setTimeout(() => {
-        initializeVariables(state, chartVariables, myChart, myChart2);
+        console.log(state);
+        console.log(chartState);
+        console.log(chartVariables);
+        initializeVariables(chartState, chartVariables, myChart, myChart2);
         updateCount(chartVariables);
         myChart.update();
         myChart2.update();
