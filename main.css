@@ -6,6 +6,11 @@
 #406279
 #6DAF61
 */
+footer {
+  background-color: #252535;
+  color: white;
+}
+
 body {
   background-color: rgb(31, 30, 46);
 }
@@ -27,7 +32,7 @@ span {
   color: white;
   /* width: 60%; */
   margin: auto;
-  margin-bottom: 1rem;
+  margin-bottom: 4rem;
   padding: 2rem;
 }
 
